@@ -13,11 +13,13 @@ public class CascadeOnReference extends BaseExperiment {
 
     @Override
     protected void experiment() {
+        final int sId = 1;
+        final int aId = 2;
         final Employee advisor = new Employee();
-        advisor.setId(1);
+        advisor.setId(aId);
         advisor.setName("Advisor");
         final Student student = new Student();
-        student.setId(2);
+        student.setId(sId);
         student.setName("Student");
         student.setEmail("student@example.org");
         em.getTransaction().begin();
@@ -29,11 +31,11 @@ public class CascadeOnReference extends BaseExperiment {
         em.getEntityManagerFactory().getCache().evictAll();
 
         em.getTransaction().begin();
-        final Student s = em.getReference(Student.class, student.getId());
+        final Student s = em.getReference(Student.class, sId);
         em.remove(s);
         em.getTransaction().commit();
 
-        final Employee result = em.find(Employee.class, advisor.getId());
+        final Employee result = em.find(Employee.class, aId);
         System.out.println("Advisor is " + result);
     }
 }
